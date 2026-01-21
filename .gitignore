@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime data (do NOT commit)
+outputs/incident_reports/*.json
+data/live_logs/*.log
+data/live_metrics/*.jsonl
+
+# OS
+.DS_Store
+
