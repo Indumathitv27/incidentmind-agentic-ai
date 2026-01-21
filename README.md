@@ -1,0 +1,84 @@
+# 🚨 IncidentMind — Agentic AI Incident Triage (FastAPI + Streamlit)
+
+IncidentMind is an **Agentic AI–style incident triage platform** that ingests an alert payload, analyzes **real-time logs and metrics**, generates a **root-cause hypothesis (RCA)** with evidence, proposes a **safe remediation plan**, and persists every incident for retrieval and UI exploration.
+
+Built to mirror **production AI systems**: API-first design, multi-agent orchestration, observability (`trace_id`), and safety guardrails.
+
+---
+
+## 🌐 Live Demo
+
+- **Streamlit UI:** https://incidentmind-agentic-ai-triage.streamlit.app/
+- **FastAPI Backend (Render):** https://incidentmind-agentic-ai.onrender.com
+- **Swagger Docs:** https://incidentmind-agentic-ai.onrender.com/docs
+
+---
+
+## ✨ Key Features
+
+### 🧠 Multi-Agent Pipeline
+A modular agent chain with clear inputs/outputs:
+
+1. **Alert Agent** → builds incident context, symptoms, category  
+2. **Log Agent** → extracts dominant error patterns + correlated request IDs  
+3. **Metrics Agent** → detects anomalies + correlations (e.g., latency vs CPU)  
+4. **RCA Agent** → produces hypothesis + confidence + evidence + alternatives  
+5. **Remediation Agent** → suggests prioritized remediation steps + validation checks  
+6. **Safety Agent** → enforces safe, read-only behavior (no destructive actions)
+
+### 🔎 Observability (Trace IDs)
+Each triage request emits **structured JSON logs** at agent boundaries with a shared `trace_id` for end-to-end debugging.
+
+### 💾 Persistent Incident Storage
+Every triage run is stored as a JSON report and can be retrieved via `incident_id`.
+
+### 🖥️ Streamlit UI
+Run triage, view output sections, and browse incident history—all backed by the public API.
+
+---
+
+## 🧩 Architecture Overview
+
+**Request Flow**
+- Streamlit UI (or curl) → **FastAPI** → agent pipeline → storage → response
+
+**Data Flow**
+- Alert payload → incident context  
+- Live logs + live metrics → findings  
+- Findings → RCA hypothesis  
+- RCA hypothesis → remediation plan  
+- Output → safety check → stored report
+
+---
+
+## 🔒 Safety & Guardrails (Read-Only Policy)
+
+This system is intentionally **non-executing**:
+- ✅ It *suggests* actions
+- ❌ It does not run commands, mutate infrastructure, or trigger automated remediation
+
+The **Safety Agent** adds policy notes and can block unsafe content if required.
+
+---
+
+## 🧪 API Endpoints
+
+| Method | Endpoint | Description |
+|-------:|----------|-------------|
+| GET | `/health` | health check |
+| POST | `/incidents/triage` | run triage pipeline and store report |
+| GET | `/incidents/{incident_id}` | retrieve stored incident report |
+| GET | `/incidents?limit=20` | list recent incidents (for UI history) |
+
+---
+
+## ▶️ Quickstart (Run Locally)
+
+### 1) Setup
+```bash
+git clone https://github.com/Indumathitv27/incidentmind-agentic-ai.git
+cd incidentmind-agentic-ai
+
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
