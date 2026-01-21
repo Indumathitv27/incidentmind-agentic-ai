@@ -51,6 +51,34 @@ Run triage, view output sections, and browse incident history—all backed by th
 
 ---
 
+## 🏗️ Architecture Diagram
+
+```mermaid
+flowchart LR
+  U[User / SRE] -->|UI actions| ST[Streamlit UI]
+  U -->|curl / API client| API[FastAPI Backend]
+
+  ST -->|REST calls| API
+
+  API -->|orchestrates| A1[Alert Agent]
+  API -->|orchestrates| A2[Log Agent]
+  API -->|orchestrates| A3[Metrics Agent]
+  API -->|orchestrates| A4[RCA Agent]
+  API -->|orchestrates| A5[Remediation Agent]
+  API -->|enforces| A6[Safety Agent]
+
+  A2 -->|fetch_logs()| LOGS[(Live Logs\n data/live_logs/*.log)]
+  A3 -->|fetch_metrics()| METRICS[(Live Metrics\n data/live_metrics/*.jsonl)]
+
+  LOGGEN[log_generator.py] --> LOGS
+  METGEN[metrics_generator.py] --> METRICS
+
+  API -->|save_report()| STORE[(Incident Reports\n outputs/incident_reports/*.json)]
+  API -->|GET /incidents| STORE
+  API -->|GET /incidents/{id}| STORE
+
+----
+
 ## 🔒 Safety & Guardrails (Read-Only Policy)
 
 This system is intentionally **non-executing**:
