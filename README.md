@@ -74,7 +74,7 @@ The **Safety Agent** adds policy notes and can block unsafe content if required.
 
 ## ▶️ Quickstart (Run Locally)
 
-### 1) Setup
+### 1) Setup Environment
 ```bash
 git clone https://github.com/Indumathitv27/incidentmind-agentic-ai.git
 cd incidentmind-agentic-ai
@@ -82,3 +82,34 @@ cd incidentmind-agentic-ai
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
+---
+
+### 2) Start log & metric generators (real-time simulation)
+Open two separate terminals
+
+Terminal A
+```bash
+python scripts/log_generator.py
+
+Terminal B
+```bash
+python scripts/metrics_generator.py
+
+### 3) Start the FastAPI backend
+```bash
+uvicorn app.main:app --reload
+
+### 4) Start the Streamlit UI
+```bash
+streamlit run ui/streamlit_app.py
+
+## 🚀 Why This Project Matters
+
+This project demonstrates:
+- Agentic AI system design
+- API-first LLM application architecture
+- Safety-aware AI development
+- Observability in AI pipelines
+- End-to-end deployment of production-style systems
+
