@@ -78,7 +78,7 @@ flowchart LR
 
     API -->|stores report| STORE[(Incident Reports)]
     API -->|retrieves report| STORE
-
+```
 ----
 
 ## 🔒 Safety & Guardrails (Read-Only Policy)
